@@ -1,0 +1,19 @@
+[package]
+name = "twilight-cache-postgres"
+version = "0.13.0"
+authors = ["lara <laralove143@icloud.com>"]
+edition = "2021"
+description = "Discord cache implementation using PostgresSQL for the Twilight ecosystem"
+repository = "https://github.com/laralove143/twilight-cache-postgres/"
+license = "ISC"
+keywords = ["discord", "discord-api", "twilight"]
+categories = ["api-bindings", "asynchronous", "caching"]
+
+[features]
+default = ["rustls"]
+rustls = ["sqlx/runtime-tokio-rustls"]
+native-tls = ["sqlx/runtime-tokio-native-tls"]
+
+[dependencies]
+twilight-cache-any-backend = "0.13"
+sqlx = { version = "0.6", features = ["postgres", "macros"] }
