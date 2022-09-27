@@ -14,6 +14,9 @@ default = ["rustls"]
 rustls = ["sqlx/runtime-tokio-rustls"]
 native-tls = ["sqlx/runtime-tokio-native-tls"]
 
+[dev-dependencies]
+tokio = { version = "1.21", features = ["macros"] }
+
 [dependencies]
-twilight-cache-any-backend = "0.13"
+sparkle-cache = "0.13"
 sqlx = { version = "0.6", features = ["postgres", "macros"] }

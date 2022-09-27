@@ -59,11 +59,15 @@
     clippy::pub_use,
     clippy::else_if_without_else
 )]
-#![doc = include_str!("../README.md")]
+#![doc = include_str ! ("../README.md")]
 
 use core::ops::Deref;
 
-use sqlx::PgPool;
+use sparkle_cache as _;
+use sqlx::{query, PgPool};
+
+#[cfg(test)]
+mod tests;
 
 /// The Discord cache
 ///
@@ -75,8 +79,40 @@ use sqlx::PgPool;
 ///
 /// It's also safe to create your own tables as long as they don't collide with
 /// the current table names
+///
+/// # Indexing
+///
+/// Most ID and name columns are indexed, you can inspect the database to see
+/// which columns are indexed, you can also create your own indexes using the
+/// inner [`PgPool`], if you think there's a missing index, please create an
+/// issue
 #[derive(Debug)]
 pub struct Cache(PgPool);
+
+impl Cache {
+    /// Create a new cache using the given URL
+    ///
+    /// Refer to [`sqlx::postgres::PgConnectOptions`] for the URL format
+    ///
+    /// This sets the tables up to be ready for further queries, it does not
+    /// overwrite anything meaning it's okay to run this without cleaning the
+    /// database
+    ///
+    /// # Errors
+    ///
+    /// Returns the error `SQLx` returns when the database connection failed or
+    /// the `init.sql` script failed to run
+    pub async fn new(url: &str) -> Result<Self, sqlx::Error> {
+        let cache = PgPool::connect(url).await?;
+
+        let init_sql = include_str!("../sql/init.sql");
+        for statement in init_sql.split(';') {
+            query(statement.trim()).execute(&cache).await?;
+        }
+
+        Ok(Self(cache))
+    }
+}
 
 impl Deref for Cache {
     type Target = PgPool;
