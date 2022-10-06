@@ -46,6 +46,16 @@ CREATE TABLE IF NOT EXISTS channels
 CREATE INDEX IF NOT EXISTS channels_guild_id_idx ON channels (guild_id);
 CREATE INDEX IF NOT EXISTS channels_name_idx ON channels (name);
 
+CREATE TABLE IF NOT EXISTS permission_overwrites
+(
+    channel_id bigint   NOT NULL,
+    allow      bigint   NOT NULL,
+    deny       bigint   NOT NULL,
+    id         bigint   NOT NULL,
+    kind       smallint NOT NULL
+);
+CREATE INDEX IF NOT EXISTS permission_overwrites_channel_id_idx ON permission_overwrites (channel_id);
+
 CREATE TABLE IF NOT EXISTS private_channels
 (
     channel_id bigint NOT NULL,
