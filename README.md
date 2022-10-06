@@ -1,9 +1,9 @@
-# Twilight Cache Postgres
+# Sparkle Cache Postgres
 
 Discord cache implementation using PostgresSQL for the Twilight ecosystem
 
 It provides a cache struct that
-implements [Twilight Cache with Any Backend](https://github.com/laralove143/twilight-cache-any-backed)'s traits and
+implements [Sparkle Cache](https://github.com/laralove143/sparke-cache)'s traits and
 uses [SQLx](https://github.com/launchbadge/sqlx) as the backend driver
 
 ## Features

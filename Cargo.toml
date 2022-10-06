@@ -1,10 +1,10 @@
 [package]
-name = "twilight-cache-postgres"
+name = "sparkle-cache-postgres"
 version = "0.13.0"
 authors = ["lara <laralove143@icloud.com>"]
 edition = "2021"
 description = "Discord cache implementation using PostgresSQL for the Twilight ecosystem"
-repository = "https://github.com/laralove143/twilight-cache-postgres/"
+repository = "https://github.com/laralove143/sparkle-cache-postgres/"
 license = "ISC"
 keywords = ["discord", "discord-api", "twilight"]
 categories = ["api-bindings", "asynchronous", "caching"]
