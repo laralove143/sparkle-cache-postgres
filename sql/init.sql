@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS members
     banner                       char(16),
     bot                          bool     NOT NULL,
     discriminator                smallint NOT NULL,
-    flags                        char(16),
+    flags                        bigint,
     id                           bigint   NOT NULL,
     locale                       text,
     mfa_enabled                  bool,
