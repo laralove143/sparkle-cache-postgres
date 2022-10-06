@@ -27,7 +27,6 @@
     single_use_lifetimes,
     trivial_casts,
     trivial_numeric_casts,
-    unreachable_pub,
     unsafe_code,
     unsafe_op_in_unsafe_fn,
     unstable_features,
@@ -38,6 +37,8 @@
     unused_macro_rules,
     unused_qualifications,
     variant_size_differences,
+    // Unstable lints:
+    // unreachable_pub,
     // Nightly lints:
     // rustdoc::missing_doc_code_examples,
     // fuzzy_provenance_casts,
@@ -57,7 +58,8 @@
     clippy::exhaustive_enums,
     clippy::self_named_module_files,
     clippy::pub_use,
-    clippy::else_if_without_else
+    clippy::else_if_without_else,
+    clippy::std_instead_of_alloc
 )]
 #![doc = include_str ! ("../README.md")]
 
@@ -66,6 +68,11 @@ use core::ops::Deref;
 use sparkle_cache as _;
 use sqlx::{query, PgPool};
 
+/// Implementing [`sparkle_cache::Backend`] on [`Cache`]
+mod backend;
+/// Models for SQL select queries and their conversion to `sparkle_cache` models
+pub(crate) mod model;
+/// Tests for this crate
 #[cfg(test)]
 mod tests;
 

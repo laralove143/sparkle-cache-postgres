@@ -20,3 +20,5 @@ tokio = { version = "1.21", features = ["macros"] }
 [dependencies]
 sparkle-cache = "0.13"
 sqlx = { version = "0.6", features = ["postgres", "macros"] }
+twilight-model = "0.13"
+async-trait = "0.1"
