@@ -119,6 +119,7 @@ CREATE INDEX IF NOT EXISTS emojis_name_idx ON emojis (name);
 
 CREATE TABLE IF NOT EXISTS stickers
 (
+    message_id  bigint,
     available   bool     NOT NULL,
     description text,
     format_type smallint NOT NULL,
@@ -131,7 +132,8 @@ CREATE TABLE IF NOT EXISTS stickers
     tags        text     NOT NULL,
     user_id     bigint
 );
-CREATE UNIQUE INDEX IF NOT EXISTS stickers_idx ON stickers (id);
+CREATE INDEX IF NOT EXISTS stickers_idx ON stickers (id);
+CREATE INDEX IF NOT EXISTS stickers_message_id_idx ON stickers (message_id);
 CREATE INDEX IF NOT EXISTS stickers_guild_id_idx ON stickers (guild_id);
 CREATE INDEX IF NOT EXISTS stickers_pack_id_idx ON stickers (pack_id);
 CREATE INDEX IF NOT EXISTS stickers_name_idx ON stickers (name);
@@ -260,16 +262,6 @@ CREATE TABLE IF NOT EXISTS attachments
 );
 CREATE INDEX IF NOT EXISTS attachments_message_idx ON attachments (message_id);
 
-CREATE TABLE IF NOT EXISTS message_stickers
-(
-    message_id  bigint   NOT NULL,
-    format_type smallint NOT NULL,
-    id          bigint   NOT NULL,
-    name        text     NOT NULL
-);
-CREATE INDEX IF NOT EXISTS message_stickers_idx ON message_stickers (id);
-CREATE INDEX IF NOT EXISTS message_stickers_message_id_idx ON message_stickers (message_id);
-
 CREATE TABLE IF NOT EXISTS presences
 (
     guild_id bigint   NOT NULL,
@@ -282,6 +274,7 @@ CREATE INDEX IF NOT EXISTS presences_user_idx ON presences ("user");
 CREATE TABLE IF NOT EXISTS activities
 (
     user_id            bigint   NOT NULL,
+    guild_id           bigint   NOT NULL,
     application_id     bigint,
     asset_large_image  text,
     asset_large_text   text,
