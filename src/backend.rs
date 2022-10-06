@@ -23,8 +23,8 @@ use twilight_model::{
     channel::StageInstance,
     id::{
         marker::{
-            ChannelMarker, EmojiMarker, GenericMarker, GuildMarker, MessageMarker, StageMarker,
-            UserMarker,
+            ChannelMarker, EmojiMarker, GenericMarker, GuildMarker, MessageMarker, RoleMarker,
+            StageMarker, UserMarker,
         },
         Id,
     },
@@ -644,10 +644,7 @@ impl Backend for Cache {
         Ok(())
     }
 
-    async fn delete_role(
-        &self,
-        role_id: Id<twilight_model::id::marker::RoleMarker>,
-    ) -> Result<(), Self::Error> {
+    async fn delete_role(&self, role_id: Id<RoleMarker>) -> Result<(), Self::Error> {
         query_file!("sql/delete_role.sql", role_id.get() as i64)
             .execute(&self.0)
             .await?;
