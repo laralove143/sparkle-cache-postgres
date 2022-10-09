@@ -1,11 +1,3 @@
-#![allow(
-    clippy::as_conversions,
-    clippy::cast_sign_loss,
-    clippy::cast_possible_truncation,
-    clippy::module_name_repetitions,
-    clippy::missing_docs_in_private_items
-)]
-
 use sparkle_cache::model::{CachedEmbed, CachedEmbedField};
 use twilight_model::{id::Id, util::Timestamp};
 

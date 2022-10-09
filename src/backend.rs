@@ -35,7 +35,7 @@ use twilight_model::{
 use crate::{
     model::{
         embed::{QueriedEmbed, QueriedEmbedField},
-        presence::status_as_i16,
+        status_as_i16,
     },
     Cache,
 };
@@ -318,7 +318,7 @@ impl Backend for Cache {
         )
         .fetch_all(&self.0)
         .await
-        .map(|fields| fields.into_iter().map(CachedEmbedField::from).collect())
+        .map(|fields| fields.into_iter().map(Into::into).collect())
     }
 
     async fn upsert_attachment(&self, attachment: CachedAttachment) -> Result<(), Self::Error> {
