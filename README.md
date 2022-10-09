@@ -15,6 +15,10 @@ This is a new library, meaning there will be bugs. Tests for Sparkle Cache are W
 if there's a bug directly related to the PostgresSQL implementation,
 please create an issue
 
+The library casts unsigned integers except for IDs internally, so please don't use
+integer-based functions such as `SUM` or equality/size checks on them in SQL,
+instead query the data and use Rust equivalents
+
 ## Features
 
 ### TLS Backend
