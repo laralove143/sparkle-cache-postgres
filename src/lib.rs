@@ -70,6 +70,8 @@ use sqlx::{query, PgPool};
 
 /// Implementing [`sparkle_cache::Backend`] on [`Cache`]
 mod backend;
+/// Implementing [`sparkle_cache::Cache`] on [`Cache`]
+mod cache;
 /// Models for SQL select queries and their conversion to `sparkle_cache` models
 pub(crate) mod model;
 /// Tests for this crate

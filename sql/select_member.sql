@@ -1,0 +1,25 @@
+SELECT guild_avatar,
+       communication_disabled_until,
+       deaf,
+       guild_id,
+       joined_at,
+       mute,
+       nick,
+       pending,
+       premium_since,
+       accent_color,
+       avatar,
+       banner,
+       bot,
+       discriminator,
+       flags,
+       id,
+       locale,
+       mfa_enabled,
+       name,
+       premium_type,
+       public_flags,
+       system
+FROM members
+WHERE guild_id = $1
+  AND id = $2
