@@ -9,6 +9,12 @@ uses [SQLx](https://github.com/launchbadge/sqlx) as the backend driver
 It also provides access to the cache's backend, meaning you can use the same database
 for your custom data
 
+## Stability
+
+This is a new library, meaning there will be bugs. Tests for Sparkle Cache are WIP,
+if there's a bug directly related to the PostgresSQL implementation,
+please create an issue
+
 ## Features
 
 ### TLS Backend
@@ -16,5 +22,5 @@ for your custom data
 - `rustls` (Default): Enables the `runtime-tokio-rustls` feature of SQLx
 - `native-tls`: Enables the `runtime-tokio-native-tls` feature of SQLx
 
-When they're both enabled, `native-tls` takes precedence, meaning you don't have to disable the default features. One of
-these features is required
+When they're both enabled, `native-tls` takes precedence, meaning you don't have to
+disable the default features. One of these features is required
