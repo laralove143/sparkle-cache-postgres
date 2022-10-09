@@ -120,16 +120,16 @@ CREATE INDEX IF NOT EXISTS emojis_name_idx ON emojis (name);
 CREATE TABLE IF NOT EXISTS stickers
 (
     message_id  bigint,
-    available   bool     NOT NULL,
+    available   bool,
     description text,
     format_type smallint NOT NULL,
     guild_id    bigint,
     id          bigint   NOT NULL,
-    kind        smallint NOT NULL,
+    kind        smallint,
     name        text     NOT NULL,
     pack_id     bigint,
     sort_value  bigint,
-    tags        text     NOT NULL,
+    tags        text,
     user_id     bigint
 );
 CREATE INDEX IF NOT EXISTS stickers_idx ON stickers (id);
