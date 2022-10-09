@@ -6,6 +6,9 @@ It provides a cache struct that
 implements [Sparkle Cache](https://github.com/laralove143/sparke-cache)'s traits and
 uses [SQLx](https://github.com/launchbadge/sqlx) as the backend driver
 
+It also provides access to the cache's backend, meaning you can use the same database
+for your custom data
+
 ## Features
 
 ### TLS Backend
