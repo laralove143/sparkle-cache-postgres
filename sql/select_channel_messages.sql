@@ -1,0 +1,31 @@
+SELECT activity_type,
+       activity_party_id,
+       application_cover_image,
+       application_description,
+       application_icon,
+       application_id,
+       application_name,
+       interaction_application_id,
+       author,
+       channel_id,
+       content,
+       edited_timestamp,
+       flags,
+       guild_id,
+       id,
+       kind,
+       mention_everyone,
+       pinned,
+       reference_channel_id,
+       reference_guild_id,
+       reference_message_id,
+       reference_fail_if_not_exists,
+       referenced_message,
+       timestamp,
+       thread,
+       tts,
+       webhook_id
+FROM messages
+WHERE channel_id = $1
+ORDER BY id DESC
+LIMIT $2

@@ -21,5 +21,4 @@ SELECT guild_avatar,
        public_flags,
        system
 FROM members
-WHERE id = $1
-  AND guild_id = $2
+WHERE guild_id = $1

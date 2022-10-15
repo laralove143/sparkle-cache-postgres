@@ -17,7 +17,7 @@ use sparkle_cache::{
     },
     Cache as CacheTrait,
 };
-use sqlx::{query_file_as, query_file_scalar};
+use sqlx::query_file_as;
 use twilight_model::{
     channel::StageInstance,
     id::{
@@ -67,21 +67,6 @@ impl CacheTrait for Cache {
         .map_err(Error::Backend)
     }
 
-    async fn guild_channels(
-        &self,
-        guild_id: Id<GuildMarker>,
-    ) -> Result<Vec<CachedChannel>, Error<Self::Error>> {
-        query_file_as!(
-            QueriedChannel,
-            "sql/select_channel.sql",
-            guild_id.get() as i64
-        )
-        .fetch_all(&self.0)
-        .await
-        .map(|channels| channels.into_iter().map(Into::into).collect())
-        .map_err(Error::Backend)
-    }
-
     async fn permission_overwrites(
         &self,
         channel_id: Id<ChannelMarker>,
@@ -97,15 +82,19 @@ impl CacheTrait for Cache {
         .map_err(Error::Backend)
     }
 
-    async fn private_channel(
+    async fn guild_channels(
         &self,
-        recipient_id: Id<UserMarker>,
-    ) -> Result<Option<Id<ChannelMarker>>, Error<Self::Error>> {
-        query_file_scalar!("sql/select_private_channel.sql", recipient_id.get() as i64)
-            .fetch_optional(&self.0)
-            .await
-            .map(|opt| opt.map(|id| Id::new(id as u64)))
-            .map_err(Error::Backend)
+        guild_id: Id<GuildMarker>,
+    ) -> Result<Vec<CachedChannel>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedChannel,
+            "sql/select_channel.sql",
+            guild_id.get() as i64
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|channels| channels.into_iter().map(Into::into).collect())
+        .map_err(Error::Backend)
     }
 
     async fn message(
@@ -168,16 +157,34 @@ impl CacheTrait for Cache {
         .map_err(Error::Backend)
     }
 
+    #[allow(clippy::panic)]
+    async fn channel_messages(
+        &self,
+        channel_id: Id<ChannelMarker>,
+        limit: u16,
+    ) -> Result<Vec<CachedMessage>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedMessage,
+            "sql/select_channel_messages.sql",
+            channel_id.get() as i64,
+            i64::from(limit)
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|messages| messages.into_iter().map(Into::into).collect())
+        .map_err(Error::Backend)
+    }
+
     async fn member(
         &self,
-        guild_id: Id<GuildMarker>,
         user_id: Id<UserMarker>,
+        guild_id: Id<GuildMarker>,
     ) -> Result<Option<CachedMember>, Error<Self::Error>> {
         query_file_as!(
             QueriedMember,
             "sql/select_member.sql",
-            guild_id.get() as i64,
             user_id.get() as i64,
+            guild_id.get() as i64,
         )
         .fetch_optional(&self.0)
         .await
@@ -232,6 +239,21 @@ impl CacheTrait for Cache {
         .map_err(Error::Backend)
     }
 
+    async fn guild_members(
+        &self,
+        guild_id: Id<GuildMarker>,
+    ) -> Result<Vec<CachedMember>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedMember,
+            "sql/select_guild_members.sql",
+            guild_id.get() as i64,
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|members| members.into_iter().map(Into::into).collect())
+        .map_err(Error::Backend)
+    }
+
     async fn guild(
         &self,
         guild_id: Id<GuildMarker>,
@@ -254,6 +276,21 @@ impl CacheTrait for Cache {
             .map_err(Error::Backend)
     }
 
+    async fn guild_roles(
+        &self,
+        guild_id: Id<GuildMarker>,
+    ) -> Result<Vec<CachedRole>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedRole,
+            "sql/select_guild_roles.sql",
+            guild_id.get() as i64
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|roles| roles.into_iter().map(Into::into).collect())
+        .map_err(Error::Backend)
+    }
+
     async fn emoji(
         &self,
         emoji_id: Id<EmojiMarker>,
@@ -263,6 +300,21 @@ impl CacheTrait for Cache {
             .await
             .map(|opt| opt.map(Into::into))
             .map_err(Error::Backend)
+    }
+
+    async fn guild_emojis(
+        &self,
+        guild_id: Id<GuildMarker>,
+    ) -> Result<Vec<CachedEmoji>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedEmoji,
+            "sql/select_guild_emojis.sql",
+            guild_id.get() as i64
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|emojis| emojis.into_iter().map(Into::into).collect())
+        .map_err(Error::Backend)
     }
 
     async fn sticker(
@@ -277,6 +329,21 @@ impl CacheTrait for Cache {
         .fetch_optional(&self.0)
         .await
         .map(|opt| opt.map(Into::into))
+        .map_err(Error::Backend)
+    }
+
+    async fn guild_stickers(
+        &self,
+        guild_id: Id<GuildMarker>,
+    ) -> Result<Vec<CachedSticker>, Error<Self::Error>> {
+        query_file_as!(
+            QueriedSticker,
+            "sql/select_guild_stickers.sql",
+            guild_id.get() as i64
+        )
+        .fetch_all(&self.0)
+        .await
+        .map(|stickers| stickers.into_iter().map(Into::into).collect())
         .map_err(Error::Backend)
     }
 

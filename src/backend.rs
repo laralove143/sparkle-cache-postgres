@@ -158,22 +158,6 @@ impl Backend for Cache {
         Ok(())
     }
 
-    async fn upsert_private_channel(
-        &self,
-        channel_id: Id<ChannelMarker>,
-        user_id: Id<UserMarker>,
-    ) -> Result<(), Self::Error> {
-        query_file!(
-            "sql/upsert_private_channel.sql",
-            channel_id.get() as i64,
-            user_id.get() as i64
-        )
-        .execute(&self.0)
-        .await?;
-
-        Ok(())
-    }
-
     async fn upsert_message(&self, message: CachedMessage) -> Result<(), Self::Error> {
         query_file!(
             "sql/upsert_message.sql",
