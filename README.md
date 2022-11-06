@@ -9,6 +9,12 @@ uses [SQLx](https://github.com/launchbadge/sqlx) as the backend driver
 It also provides access to the cache's backend, meaning you can use the same database
 for your custom data
 
+## Compile-time verification
+
+To use [SQLx's compile time verification](https://github.com/launchbadge/sqlx#compile-time-verification), set
+the `DATABASE_URL` environment variable to the URL of your database, for
+example, `DATABASE_URL=postgresql://localhost:5432/sparkle`
+
 ## Stability
 
 This is a new, relatively immature library. It passes Sparkle Cache's tests, but of course there may be points not

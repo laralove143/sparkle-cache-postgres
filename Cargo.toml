@@ -21,6 +21,6 @@ sparkle-cache = { version = "0.13", features = ["tests"] }
 
 [dependencies]
 sparkle-cache = "0.13"
-sqlx = { version = "0.6", features = ["postgres", "macros"] }
+sqlx = { version = "0.6", features = ["postgres", "macros", "offline"] }
 twilight-model = "0.13"
 async-trait = "0.1"

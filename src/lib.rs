@@ -61,7 +61,7 @@
     clippy::else_if_without_else,
     clippy::std_instead_of_alloc
 )]
-#![doc = include_str ! ("../README.md")]
+#![doc = include_str!("../README.md")]
 
 use core::ops::Deref;
 
