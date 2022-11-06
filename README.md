@@ -11,9 +11,11 @@ for your custom data
 
 ## Stability
 
-This is a new library, meaning there will be bugs. Tests for Sparkle Cache are WIP,
-if there's a bug directly related to the PostgresSQL implementation,
-please create an issue
+This is a new, relatively immature library. It passes Sparkle Cache's tests, but of course there may be points not
+covered by them. If there's a bug directly related to the PostgresSQL implementation, please create an issue
+
+Sparkle Cache's tests currently don't cover stickers because
+of [a bug in Twilight](https://github.com/twilight-rs/twilight/issues/1954)
 
 The library casts unsigned integers except for IDs internally, so please don't use
 integer-based functions such as `SUM` or equality/size checks on them in SQL,
@@ -26,5 +28,4 @@ instead query the data and use Rust equivalents
 - `rustls` (Default): Enables the `runtime-tokio-rustls` feature of SQLx
 - `native-tls`: Enables the `runtime-tokio-native-tls` feature of SQLx
 
-When they're both enabled, `native-tls` takes precedence, meaning you don't have to
-disable the default features. One of these features is required
+Only one of these features can be selected

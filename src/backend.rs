@@ -4,7 +4,7 @@
     clippy::cast_possible_wrap,
     clippy::integer_arithmetic,
     clippy::std_instead_of_core,
-    clippy::arithmetic
+    clippy::arithmetic_side_effects
 )]
 
 use std::borrow::Cow;
@@ -198,12 +198,9 @@ impl Backend for Cache {
     }
 
     async fn delete_message(&self, message_id: Id<MessageMarker>) -> Result<(), Self::Error> {
-        query_file!(
-            "sql/delete_channel_permission_overwrites.sql",
-            message_id.get() as i64
-        )
-        .execute(&self.0)
-        .await?;
+        query_file!("sql/delete_message.sql", message_id.get() as i64)
+            .execute(&self.0)
+            .await?;
 
         Ok(())
     }
@@ -603,11 +600,35 @@ impl Backend for Cache {
         Ok(())
     }
 
-    async fn upsert_role(&self, role: CachedRole) -> Result<(), Self::Error> {
+    async fn insert_role(&self, role: CachedRole) -> Result<(), Self::Error> {
         query_file!(
-            "sql/upsert_role.sql",
+            "sql/insert_role.sql",
             role.guild_id.get() as i64,
             role.user_id.map(|id| id.get() as i64),
+            i64::from(role.color),
+            role.hoist,
+            role.icon.map(|icon| icon.to_string()),
+            role.id.get() as i64,
+            role.managed,
+            role.mentionable,
+            role.name,
+            role.permissions.bits() as i64,
+            role.position,
+            role.tags_bot_id.map(|id| id.get() as i64),
+            role.tags_integration_id.map(|id| id.get() as i64),
+            role.tags_premium_subscriber,
+            role.unicode_emoji,
+        )
+        .execute(&self.0)
+        .await?;
+
+        Ok(())
+    }
+
+    async fn update_roles(&self, role: CachedRole) -> Result<(), Self::Error> {
+        query_file!(
+            "sql/update_role.sql",
+            role.guild_id.get() as i64,
             i64::from(role.color),
             role.hoist,
             role.icon.map(|icon| icon.to_string()),

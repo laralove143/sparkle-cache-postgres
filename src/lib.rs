@@ -65,7 +65,6 @@
 
 use core::ops::Deref;
 
-use sparkle_cache as _;
 use sqlx::{query, PgPool};
 
 /// Implementing [`sparkle_cache::Backend`] on [`Cache`]
@@ -103,9 +102,8 @@ impl Cache {
     ///
     /// Refer to [`sqlx::postgres::PgConnectOptions`] for the URL format
     ///
-    /// This sets the tables up to be ready for further queries, it does not
-    /// overwrite anything meaning it's okay to run this without cleaning the
-    /// database
+    /// This only clears the tables about Sparkle Cache, meaning any other
+    /// custom tables are persistent
     ///
     /// # Errors
     ///

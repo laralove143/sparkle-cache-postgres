@@ -1,8 +1,45 @@
+-- noinspection SqlWithoutWhereForFile
+
+DELETE
+FROM "current_user";
+DELETE
+FROM channels;
+DELETE
+FROM permission_overwrites;
+DELETE
+FROM private_channels;
+DELETE
+FROM guilds;
+DELETE
+FROM emojis;
+DELETE
+FROM stickers;
+DELETE
+FROM members;
+DELETE
+FROM messages;
+DELETE
+FROM embeds;
+DELETE
+FROM embed_fields;
+DELETE
+FROM attachments;
+DELETE
+FROM presences;
+DELETE
+FROM activities;
+DELETE
+FROM reactions;
+DELETE
+FROM roles;
+DELETE
+FROM stage_instances;
+
 CREATE TABLE IF NOT EXISTS "current_user"
 (
     accent_color  bigint,
-    avatar        char(16),
-    banner        char(16),
+    avatar        varchar(34),
+    banner        varchar(34),
     bot           bool    NOT NULL,
     discriminator integer NOT NULL,
     email         text,
@@ -22,7 +59,7 @@ CREATE TABLE IF NOT EXISTS channels
     bitrate                       bigint,
     default_auto_archive_duration integer,
     guild_id                      bigint,
-    icon                          char(16),
+    icon                          varchar(34),
     id                            bigint PRIMARY KEY,
     invitable                     bool,
     kind                          smallint NOT NULL,
@@ -68,13 +105,13 @@ CREATE TABLE IF NOT EXISTS guilds
     afk_channel_id                bigint,
     afk_timeout                   bigint   NOT NULL,
     application_id                bigint,
-    banner                        char(16),
+    banner                        varchar(34),
     default_message_notifications smallint NOT NULL,
     description                   text,
-    discovery_splash              char(16),
+    discovery_splash              varchar(34),
     explicit_content_filter       smallint NOT NULL,
     features                      text     NOT NULL,
-    icon                          char(16),
+    icon                          varchar(34),
     id                            bigint PRIMARY KEY,
     joined_at                     bigint,
     large                         bool     NOT NULL,
@@ -92,7 +129,7 @@ CREATE TABLE IF NOT EXISTS guilds
     premium_subscription_count    bigint,
     premium_tier                  smallint NOT NULL,
     rules_channel_id              bigint,
-    splash                        char(16),
+    splash                        varchar(34),
     system_channel_flags          bigint   NOT NULL,
     system_channel_id             bigint,
     unavailable                   bool     NOT NULL,
@@ -132,7 +169,7 @@ CREATE TABLE IF NOT EXISTS stickers
     tags        text,
     user_id     bigint
 );
-CREATE INDEX IF NOT EXISTS stickers_idx ON stickers (id);
+CREATE UNIQUE INDEX IF NOT EXISTS stickers_idx ON stickers (id) WHERE message_id IS NULL;
 CREATE INDEX IF NOT EXISTS stickers_message_id_idx ON stickers (message_id);
 CREATE INDEX IF NOT EXISTS stickers_guild_id_idx ON stickers (guild_id);
 CREATE INDEX IF NOT EXISTS stickers_pack_id_idx ON stickers (pack_id);
@@ -140,7 +177,7 @@ CREATE INDEX IF NOT EXISTS stickers_name_idx ON stickers (name);
 
 CREATE TABLE IF NOT EXISTS members
 (
-    guild_avatar                 char(16),
+    guild_avatar                 varchar(34),
     communication_disabled_until bigint,
     deaf                         bool     NOT NULL,
     guild_id                     bigint   NOT NULL,
@@ -150,8 +187,8 @@ CREATE TABLE IF NOT EXISTS members
     pending                      bool     NOT NULL,
     premium_since                bigint,
     accent_color                 bigint,
-    avatar                       char(16),
-    banner                       char(16),
+    avatar                       varchar(34),
+    banner                       varchar(34),
     bot                          bool     NOT NULL,
     discriminator                smallint NOT NULL,
     flags                        bigint,
@@ -173,9 +210,9 @@ CREATE TABLE IF NOT EXISTS messages
 (
     activity_type                smallint,
     activity_party_id            text,
-    application_cover_image      char(16),
+    application_cover_image      varchar(34),
     application_description      text,
-    application_icon             char(16),
+    application_icon             varchar(34),
     application_id               bigint,
     application_name             text,
     interaction_application_id   bigint,
@@ -316,7 +353,7 @@ CREATE TABLE IF NOT EXISTS roles
     user_id                 bigint,
     color                   bigint NOT NULL,
     hoist                   bool   NOT NULL,
-    icon                    char(16),
+    icon                    varchar(34),
     id                      bigint NOT NULL,
     managed                 bool   NOT NULL,
     mentionable             bool   NOT NULL,
@@ -328,7 +365,7 @@ CREATE TABLE IF NOT EXISTS roles
     tags_premium_subscriber bool,
     unicode_emoji           text
 );
-CREATE UNIQUE INDEX IF NOT EXISTS roles_idx ON roles (user_id, id);
+CREATE UNIQUE INDEX IF NOT EXISTS roles_idx ON roles (id) WHERE user_id IS NULL;
 CREATE INDEX IF NOT EXISTS roles_guild_id_idx ON roles (guild_id);
 CREATE INDEX IF NOT EXISTS roles_user_id_idx ON roles (user_id);
 CREATE INDEX IF NOT EXISTS roles_name_idx ON roles (name);

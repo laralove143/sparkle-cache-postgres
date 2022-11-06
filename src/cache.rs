@@ -1,10 +1,10 @@
 #![allow(
     clippy::std_instead_of_core,
     clippy::as_conversions,
-    clippy::arithmetic,
     clippy::integer_arithmetic,
     clippy::cast_possible_wrap,
-    clippy::cast_sign_loss
+    clippy::cast_sign_loss,
+    clippy::arithmetic_side_effects
 )]
 
 use async_trait::async_trait;
@@ -88,7 +88,7 @@ impl CacheTrait for Cache {
     ) -> Result<Vec<CachedChannel>, Error<Self::Error>> {
         query_file_as!(
             QueriedChannel,
-            "sql/select_channel.sql",
+            "sql/select_guild_channels.sql",
             guild_id.get() as i64
         )
         .fetch_all(&self.0)
@@ -167,7 +167,11 @@ impl CacheTrait for Cache {
             QueriedMessage,
             "sql/select_channel_messages.sql",
             channel_id.get() as i64,
-            i64::from(limit)
+            if limit == 0 {
+                None
+            } else {
+                Some(i64::from(limit))
+            }
         )
         .fetch_all(&self.0)
         .await
