@@ -1,6 +1,6 @@
 [package]
 name = "sparkle-cache-postgres"
-version = "0.13.2"
+version = "0.13.3"
 authors = ["lara <laralove143@icloud.com>"]
 edition = "2021"
 description = "Discord cache implementation using PostgresSQL for the Twilight ecosystem"

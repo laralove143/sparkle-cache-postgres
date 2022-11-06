@@ -63,8 +63,6 @@
 )]
 #![doc = include_str!("../README.md")]
 
-use core::ops::Deref;
-
 use sqlx::{query, PgPool};
 
 /// Implementing [`sparkle_cache::Backend`] on [`Cache`]
@@ -79,14 +77,9 @@ mod tests;
 
 /// The Discord cache
 ///
-/// This is a wrapper over [`PgPool`]
+/// This is a wrapper over [`PgPool`], you can use [`Cache::pg`] to get the
+/// inner [`PgPool`], see its documentation for more info
 ///
-/// # Extensibility
-///
-/// It implements deref to the [`PgPool`] for all of your custom queries
-///
-/// It's also safe to create your own tables as long as they don't collide with
-/// the current table names
 ///
 /// # Indexing
 ///
@@ -94,6 +87,8 @@ mod tests;
 /// which columns are indexed, you can also create your own indexes using the
 /// inner [`PgPool`], if you think there's a missing index, please create an
 /// issue
+///
+/// [`PgPool`]: https://docs.rs/sqlx/latest/sqlx/type.PgPool.html
 #[derive(Debug)]
 pub struct Cache(PgPool);
 
@@ -119,12 +114,29 @@ impl Cache {
 
         Ok(Self(cache))
     }
-}
 
-impl Deref for Cache {
-    type Target = PgPool;
-
-    fn deref(&self) -> &Self::Target {
+    /// Return a reference to the inner `PgPool` for the cache, so that you can
+    /// use it in custom queries
+    ///
+    /// Make sure the names of tables or indexes you create don't collide with
+    /// the ones created by this crate
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use sparkle_cache_postgres::Cache;
+    /// use sqlx::query;
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), anyhow::Error> {
+    /// # let cache = Cache::new("postgresql://localhost:5432/sparkle").await?;
+    /// query!("CREATE TABLE members_ext (id bigint, age smallint)")
+    ///     .execute(cache.pg())
+    ///     .await?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    #[must_use]
+    pub const fn pg(&self) -> &PgPool {
         &self.0
     }
 }
