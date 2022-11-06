@@ -1,9 +1,13 @@
 # Sparkle Cache Postgres
 
+[GitHub](https://github.com/laralove143/sparkle-cache-postgres)
+[crates.io](https://crates.io/crates/sparkle-cache-postgres)
+[docs.rs](https://docs.rs/sparkle-cache-postgres/latest)
+
 Discord cache implementation using PostgresSQL for the Twilight ecosystem
 
 It provides a cache struct that
-implements [Sparkle Cache](https://github.com/laralove143/sparke-cache)'s traits and
+implements [Sparkle Cache](https://github.com/laralove143/sparkle-cache)'s traits and
 uses [SQLx](https://github.com/launchbadge/sqlx) as the backend driver
 
 It also provides access to the cache's backend, meaning you can use the same database
