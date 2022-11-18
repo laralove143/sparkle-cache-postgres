@@ -60,7 +60,7 @@ impl Backend for Cache {
             current_user.name,
             current_user
                 .premium_type
-                .map(|premium_type| premium_type as i16),
+                .map(|premium_type| i16::from(u8::from(premium_type))),
             current_user.public_flags.map(|flags| flags.bits() as i64),
             current_user.verified,
         )
@@ -419,7 +419,9 @@ impl Backend for Cache {
             member.locale,
             member.mfa_enabled,
             member.name,
-            member.premium_type.map(|kind| i16::from(kind as u8)),
+            member
+                .premium_type
+                .map(|premium_type| i16::from(u8::from(premium_type))),
             member.public_flags.map(|flags| flags.bits() as i64),
             member.system,
         )

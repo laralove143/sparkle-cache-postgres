@@ -129,7 +129,7 @@ impl Cache {
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), anyhow::Error> {
     /// # let cache = Cache::new("postgresql://localhost:5432/sparkle").await?;
-    /// query!("CREATE TABLE members_ext (id bigint, age smallint)")
+    /// query!("CREATE TABLE IF NOT EXISTS members_ext (id bigint, age smallint)")
     ///     .execute(cache.pg())
     ///     .await?;
     /// # Ok(())

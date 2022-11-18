@@ -1,6 +1,6 @@
 [package]
 name = "sparkle-cache-postgres"
-version = "0.13.3"
+version = "0.14.0"
 authors = ["lara <laralove143@icloud.com>"]
 edition = "2021"
 description = "Discord cache implementation using PostgresSQL for the Twilight ecosystem"
@@ -17,10 +17,10 @@ native-tls = ["sqlx/runtime-tokio-native-tls"]
 [dev-dependencies]
 tokio = { version = "1.21", features = ["macros"] }
 anyhow = { version = "1.0" }
-sparkle-cache = { version = "0.13", features = ["tests"] }
+sparkle-cache = { version = "0.14", features = ["tests"] }
 
 [dependencies]
-sparkle-cache = "0.13"
+sparkle-cache = "0.14"
 sqlx = { version = "0.6", features = ["postgres", "macros", "offline"] }
-twilight-model = "0.13"
+twilight-model = "0.14"
 async-trait = "0.1"
