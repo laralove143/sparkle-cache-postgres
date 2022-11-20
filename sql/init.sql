@@ -1,40 +1,5 @@
 -- noinspection SqlWithoutWhereForFile
 
-DELETE
-FROM "current_user";
-DELETE
-FROM channels;
-DELETE
-FROM permission_overwrites;
-DELETE
-FROM private_channels;
-DELETE
-FROM guilds;
-DELETE
-FROM emojis;
-DELETE
-FROM stickers;
-DELETE
-FROM members;
-DELETE
-FROM messages;
-DELETE
-FROM embeds;
-DELETE
-FROM embed_fields;
-DELETE
-FROM attachments;
-DELETE
-FROM presences;
-DELETE
-FROM activities;
-DELETE
-FROM reactions;
-DELETE
-FROM roles;
-DELETE
-FROM stage_instances;
-
 CREATE TABLE IF NOT EXISTS "current_user"
 (
     accent_color  bigint,
@@ -380,3 +345,23 @@ CREATE TABLE IF NOT EXISTS stage_instances
     topic                    text     NOT NULL
 );
 CREATE INDEX IF NOT EXISTS stage_instances_guild_id_idx ON stage_instances (guild_id);
+
+TRUNCATE
+    "current_user",
+    channels,
+    permission_overwrites,
+    private_channels,
+    guilds,
+    emojis,
+    stickers,
+    members,
+    messages,
+    embeds,
+    embed_fields,
+    attachments,
+    presences,
+    activities,
+    reactions,
+    roles,
+    stage_instances
+    CASCADE;
